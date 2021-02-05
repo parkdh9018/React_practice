@@ -1,19 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
 import Cell from './Cell';
-
-const Table = styled.div`
-    table {
-        border-collapse: collapse;
-    }
-    td {
-        border: 1px solid black;
-        width: 40px;
-        height: 40px;
-        text-align: center;
-    }
-`;
 
 const keyString = (i, j) => i.toString()+'_'+j.toString();
 
@@ -29,7 +15,7 @@ const Home = () => {
     ]
 
     return (
-        <Table>
+        <table>
             {Array(tableData.length).fill().map((v, i) => {
                 return(
                     <tr key={i}>
@@ -40,7 +26,7 @@ const Home = () => {
 
                 )
             })}
-        </Table>
+        </table>
     )
 }
 
