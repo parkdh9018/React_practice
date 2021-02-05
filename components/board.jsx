@@ -1,21 +1,17 @@
 import React from 'react';
+import {  useSelector } from 'react-redux';
+
 import Cell from './Cell';
 
 const keyString = (i, j) => i.toString()+'_'+j.toString();
 
 const Home = () => {
 
-    const tableData = [
-        [1,1,2,1,1],
-        [1,2,2,2,1],
-        [1,1,1,1,1],
-        [1,1,1,1,1],
-        [1,1,1,1,1],
-        [1,1,1,1,1],
-    ]
+    const {tableData ,isGameStart} = useSelector(state => state);
 
     return (
-        <table>
+        <>
+        {isGameStart &&<table>
             {Array(tableData.length).fill().map((v, i) => {
                 return(
                     <tr key={i}>
@@ -26,7 +22,8 @@ const Home = () => {
 
                 )
             })}
-        </table>
+        </table>}
+        </>
     )
 }
 

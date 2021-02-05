@@ -1,16 +1,10 @@
 import React from 'react';
 import Proptype from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const Cell = ({rowIndex, colIndex}) => {
 
-    const tableData = [
-        [1,1,2,1,1],
-        [1,2,2,2,1],
-        [1,1,1,1,1],
-        [1,1,1,1,1],
-        [1,1,1,1,1],
-        [1,1,1,1,1],
-    ]
+    const cellNum = useSelector(state => state.tableData[rowIndex][colIndex])
 
     const getColor = (num) => {
     
@@ -23,7 +17,7 @@ const Cell = ({rowIndex, colIndex}) => {
     }
 
     return (
-        <td style={getColor(tableData[rowIndex][colIndex])}></td>
+        <td style={getColor(cellNum)}></td>
     )
 }
 
