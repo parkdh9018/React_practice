@@ -9,9 +9,20 @@ const Menu = () => {
         dispatch({type:'GAME_START'})
     });
 
+    const createBlockClick = useCallback(() => {
+        dispatch({type:'CREATE_BLOCK'})
+    })
+
+    const moveBlockClick = useCallback(() => {
+        
+    })
+
     return (
         <>
             <button onClick={startGameClick}>start</button>
+            <button onClick={createBlockClick}>block</button>
+            <button onClick={moveBlockClick}>move</button>
+
         </>
     )
 };

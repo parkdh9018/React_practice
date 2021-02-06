@@ -1,10 +1,27 @@
 
+import Block from './Block'
+
 const initialState = {
     tableData:[],
-    moveBlock:[],
+    moveBlock:{
+        num : 0,    //블록번호
+        rotate: 0, //회전정도
+        pos: [0,0], //좌상단의 좌표  
+    },
     stopBlock:[],
     isGameStart: false,
 };
+
+const row = 12;
+const col = 8;
+
+
+const drawblock = (tableData,moveBlock) => {
+
+
+    return tableData;
+    
+}
 
 const reducer = (state = initialState,action) => {
 
@@ -14,23 +31,27 @@ const reducer = (state = initialState,action) => {
             return { ...state}
 
         case 'CREATE_BLOCK':
-            return { ...state}
+
+            return { 
+                ...state,
+                moveBlock: {
+                    num : 1,
+                    rotate: 0,
+                    pos: [0,Math.floor(col/2)-2],
+                },
+                tableData: drawblock(state.tableData, state.moveBlock)
+            }
         case 'MOVE':
             return {
                 ...state,
-                moveBlock: [1,2],
+                moveBlock: movingBlock(state.moveBlock),
             }
         case 'GAME_START':
             return {
                 ...state,
-                tableData:[
-                        [1,1,1,1,1],
-                        [1,1,1,1,1],
-                        [1,1,1,1,1],
-                        [1,1,1,1,1],
-                        [1,1,1,1,1],
-                        [1,1,1,1,1],
-                    ],
+                tableData: Array.from(Array(row), () => new Array(col).fill(0)),
+                moveBlock:[],
+                stopBlock:[],
                 isGameStart:true,
             }
 
