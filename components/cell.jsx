@@ -9,9 +9,9 @@ const Cell = ({rowIndex, colIndex}) => {
     const getColor = (num) => {
     
         switch(num){
-            case 1:
+            case 0:
                 return {background : 'white'}
-            case 2:
+            case 1:
                 return {background : 'red'}
         }
     }

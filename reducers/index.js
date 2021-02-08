@@ -16,30 +16,36 @@ const row = 12;
 const col = 8;
 
 
-const drawblock = (tableData,moveBlock) => {
+const drawblock = (tableData, moveBlock) => {
 
+    let result = [...tableData];
+    const {pos, num} = moveBlock;
+    const block  = Block[num];
 
-    return tableData;
+    for (let i = 0; i<block.length; i++){
+        for(let j = 0; j<block[0].length; j++){
+            result[i+pos[0]][j+pos[1]] = block[i][j]; 
+        }
+    }
+
+    return result;
     
 }
 
 const reducer = (state = initialState,action) => {
 
     switch(action.type) {
-
-        case 'FETCH_STATE':
-            return { ...state}
-
         case 'CREATE_BLOCK':
 
+            const moveBlock = {
+                num : 0,
+                rotate: 0,
+                pos: [0,Math.floor(col/2)-1],
+            };
             return { 
                 ...state,
-                moveBlock: {
-                    num : 1,
-                    rotate: 0,
-                    pos: [0,Math.floor(col/2)-2],
-                },
-                tableData: drawblock(state.tableData, state.moveBlock)
+                moveBlock,
+                tableData: drawblock(state.tableData, moveBlock)
             }
         case 'MOVE':
             return {
