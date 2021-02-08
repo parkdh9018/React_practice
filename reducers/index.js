@@ -34,10 +34,13 @@ const drawblock = (tableData, moveBlock) => {
 
 const reducer = (state = initialState,action) => {
 
+    let moveBlock;
+    const { pos } = state.moveBlock;
+    const empty_table = Array.from(Array(row), () => new Array(col).fill(0));
+
     switch(action.type) {
         case 'CREATE_BLOCK':
-
-            const moveBlock = {
+            moveBlock = {
                 num : 0,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
@@ -45,17 +48,42 @@ const reducer = (state = initialState,action) => {
             return { 
                 ...state,
                 moveBlock,
-                tableData: drawblock(state.tableData, moveBlock)
+                tableData: drawblock(empty_table, moveBlock)
             }
-        case 'MOVE':
+        case 'MOVE_DOWN_BLOCK':
+            moveBlock = {
+                ...state.moveBlock,
+                pos: [pos[0]+1,pos[1]],
+            };
             return {
                 ...state,
-                moveBlock: movingBlock(state.moveBlock),
+                moveBlock,
+                tableData: drawblock(empty_table, moveBlock)
+            }
+        case 'MOVE_LEFT':
+            moveBlock = {
+                ...state.moveBlock,
+                pos: [pos[0],pos[1]-1],
+            };
+            return {
+                ...state,
+                moveBlock,
+                tableData: drawblock(empty_table, moveBlock)
+            }
+        case 'MOVE_RIGHT':
+            moveBlock = {
+                ...state.moveBlock,
+                pos: [pos[0],pos[1]+1],
+            };
+            return {
+                ...state,
+                moveBlock,
+                tableData: drawblock(empty_table, moveBlock)
             }
         case 'GAME_START':
             return {
                 ...state,
-                tableData: Array.from(Array(row), () => new Array(col).fill(0)),
+                tableData: empty_table,
                 moveBlock:[],
                 stopBlock:[],
                 isGameStart:true,

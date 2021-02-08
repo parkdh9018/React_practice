@@ -14,14 +14,24 @@ const Menu = () => {
     })
 
     const moveBlockClick = useCallback(() => {
-        
+        dispatch({type:'MOVE_DOWN_BLOCK'})
+    })
+
+    const move_leftClick = useCallback(() => {
+        dispatch({type:'MOVE_LEFT'})
+    })
+
+    const move_rightClick = useCallback(() => {
+        dispatch({type:'MOVE_RIGHT'})
     })
 
     return (
         <>
             <button onClick={startGameClick}>start</button>
             <button onClick={createBlockClick}>block</button>
-            <button onClick={moveBlockClick}>move</button>
+            <button onClick={moveBlockClick}>move_down</button>
+            <button onClick={move_leftClick}>move_left</button>
+            <button onClick={move_rightClick}>move_right</button>
 
         </>
     )
