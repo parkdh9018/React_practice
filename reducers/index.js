@@ -29,7 +29,7 @@ const drawblock = (stopBlock, moveBlock) => {
             if(result[i+pos[0]][j+pos[1]] == 0){ 
                 result[i+pos[0]][j+pos[1]] = block[i][j];
             } else { //블록 끼리 겹침
-                return stopBlock;
+                return false;
             }
         }
     }
@@ -40,6 +40,7 @@ const drawblock = (stopBlock, moveBlock) => {
 const reducer = (state = initialState,action) => {
 
     let moveBlock;
+    let draw;
     const { pos } = state.moveBlock;
     const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
 
@@ -75,35 +76,69 @@ const reducer = (state = initialState,action) => {
                     stopBlock:deep2Dcopy(state.tableData),
                 }
             }
-
             moveBlock = {
                 ...state.moveBlock,
                 pos: [pos[0]+1,pos[1]],
             };
-            return {
-                ...state,
-                moveBlock,
-                tableData: drawblock(state.stopBlock, moveBlock)
+
+            draw = drawblock(state.stopBlock, moveBlock);
+
+            if(draw) {
+                return {
+                    ...state,
+                    moveBlock,
+                    tableData: draw,
+                }
+            } else {
+                return {
+                    ...state,
+                    moveBlock,
+                    stopBlock: state.tableData
+                }
             }
+
+
         case 'MOVE_LEFT':
             moveBlock = {
                 ...state.moveBlock,
                 pos: [pos[0],pos[1]-1],
             };
-            return {
-                ...state,
-                moveBlock,
-                tableData: drawblock(state.stopBlock, moveBlock)
+
+            draw = drawblock(state.stopBlock, moveBlock);
+
+            if(draw) {
+                return {
+                    ...state,
+                    moveBlock,
+                    tableData: draw,
+                }
+            } else {
+                console.log('left_false')
+                return {
+                    ...state,
+                }
             }
+
+
         case 'MOVE_RIGHT':
             moveBlock = {
                 ...state.moveBlock,
                 pos: [pos[0],pos[1]+1],
             };
-            return {
-                ...state,
-                moveBlock,
-                tableData: drawblock(state.stopBlock, moveBlock)
+
+            draw = drawblock(state.stopBlock, moveBlock);
+
+            if(draw) {
+                return {
+                    ...state,
+                    moveBlock,
+                    tableData: draw,
+                }
+            } else {
+                console.log('right_false')
+                return {
+                    ...state,
+                }
             }
 
         default:
