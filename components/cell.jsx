@@ -13,6 +13,10 @@ const Cell = ({rowIndex, colIndex}) => {
                 return {background : 'white'}
             case 1:
                 return {background : 'red'}
+            case 2:
+                return {background : 'yellow'}
+            case 3:
+                return {background : 'blue'}                
         }
     }
 

@@ -21,7 +21,7 @@ const drawblock = (stopBlock, moveBlock) => {
 
     const result = deep2Dcopy(stopBlock);
     const {pos, num} = moveBlock;
-    const block  = Block[num];
+    const block = Block[num];
 
     for (let i = 0; i<block.length; i++){
         for(let j = 0; j<block[0].length; j++){
@@ -41,7 +41,7 @@ const reducer = (state = initialState,action) => {
 
     let moveBlock;
     let draw;
-    const { pos } = state.moveBlock;
+    const { pos,num } = state.moveBlock;
     const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
 
     switch(action.type) {
@@ -57,7 +57,7 @@ const reducer = (state = initialState,action) => {
 
         case 'CREATE_BLOCK':
             moveBlock = {
-                num : 0,
+                num : Math.floor(Math.random() * 2),
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
@@ -69,7 +69,7 @@ const reducer = (state = initialState,action) => {
             }
         case 'MOVE_DOWN_BLOCK':
 
-            if (pos[0] >= row - Block[0].length) {
+            if (pos[0] >= row - Block[num].length) {
                 console.log('end')
                 return { 
                     ...state,
