@@ -20,17 +20,21 @@ const deep2Dcopy = (arr) => [...arr.map((v) => [...v])];
 const drawblock = (stopBlock, moveBlock) => {
 
     const result = deep2Dcopy(stopBlock);
-    const {pos, num} = moveBlock;
-    const block = Block[num];
+    const {pos, num, rotate} = moveBlock;
+    const block = Block[num][rotate];
 
     for (let i = 0; i<block.length; i++){
         for(let j = 0; j<block[0].length; j++){
 
-            if(result[i+pos[0]][j+pos[1]] == 0){ 
-                result[i+pos[0]][j+pos[1]] = block[i][j];
-            } else { //블록 끼리 겹침
-                return false;
+            if(block[i][j] !== 0) {
+                if(result[i+pos[0]][j+pos[1]] === 0 ){
+                    result[i+pos[0]][j+pos[1]] = block[i][j];
+                } else { //블록 끼리 겹침
+                    console.log('겹침')
+                    return false;
+                }
             }
+
         }
     }
     return result;
@@ -41,7 +45,7 @@ const reducer = (state = initialState,action) => {
 
     let moveBlock;
     let draw;
-    const { pos,num } = state.moveBlock;
+    const { pos, num, rotate } = state.moveBlock;
     const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
 
     switch(action.type) {
@@ -57,7 +61,8 @@ const reducer = (state = initialState,action) => {
 
         case 'CREATE_BLOCK':
             moveBlock = {
-                num : Math.floor(Math.random() * 2),
+                num : Math.floor(Math.random() * Block.length),
+                //num : 2,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
@@ -67,9 +72,9 @@ const reducer = (state = initialState,action) => {
                 moveBlock,
                 tableData:drawblock(state.stopBlock, moveBlock),
             }
-        case 'MOVE_DOWN_BLOCK':
+        case 'MOVE_DOWN':
 
-            if (pos[0] >= row - Block[num].length) {
+            if (pos[0] >= row - Block[num][rotate].length) {
                 console.log('end')
                 return { 
                     ...state,
@@ -141,6 +146,26 @@ const reducer = (state = initialState,action) => {
                 }
             }
 
+        case 'MOVE_ROTATE':
+
+            moveBlock = {
+                ...state.moveBlock,
+                rotate: (rotate + 1) % Block[num].length,
+            };
+
+            draw = drawblock(state.stopBlock, moveBlock);
+
+            if(draw) {
+                return {
+                    ...state,
+                    moveBlock,
+                    tableData: draw,
+                }
+            } else {
+                return {
+                    ...state,
+                }
+            }
         default:
             return state;
     }
