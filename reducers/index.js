@@ -27,7 +27,7 @@ const drawblock = (stopBlock, moveBlock) => {
         for(let j = 0; j<block[0].length; j++){
 
             if(block[i][j] !== 0) {
-                if(result[i+pos[0]][j+pos[1]] === 0 ){
+                if(result[i+pos[0]][j+pos[1]] === 0){
                     result[i+pos[0]][j+pos[1]] = block[i][j];
                 } else { //블록 끼리 겹침
                     console.log('겹침')
@@ -39,6 +39,18 @@ const drawblock = (stopBlock, moveBlock) => {
     }
     return result;
     
+}
+
+const eraseblock = (block) => {
+
+    for(let i = row-1; i >= 0; i--){
+        if(block[i].every((v) => v > 0)){
+            console.log('한줄삭제')
+            block.splice(i,1);
+            block.unshift(Array(col).fill(0))
+        }
+    }
+
 }
 
 const reducer = (state = initialState,action) => {
@@ -61,8 +73,8 @@ const reducer = (state = initialState,action) => {
 
         case 'CREATE_BLOCK':
             moveBlock = {
-                num : Math.floor(Math.random() * Block.length),
-                //num : 2,
+                //num : Math.floor(Math.random() * Block.length),
+                num : 3,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
@@ -74,13 +86,16 @@ const reducer = (state = initialState,action) => {
             }
         case 'MOVE_DOWN':
 
+            //바닥에 닿았을때
             if (pos[0] >= row - Block[num][rotate].length) {
-                console.log('end')
+
+                eraseblock(state.tableData)
                 return { 
                     ...state,
                     stopBlock:deep2Dcopy(state.tableData),
                 }
             }
+
             moveBlock = {
                 ...state.moveBlock,
                 pos: [pos[0]+1,pos[1]],
@@ -94,11 +109,11 @@ const reducer = (state = initialState,action) => {
                     moveBlock,
                     tableData: draw,
                 }
-            } else {
+            } else { 
+                eraseblock(state.tableData)
                 return {
                     ...state,
-                    moveBlock,
-                    stopBlock: state.tableData
+                    stopBlock:deep2Dcopy(state.tableData),
                 }
             }
 
