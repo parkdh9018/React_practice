@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {  useDispatch, useSelector } from 'react-redux';
 
 import Cell from './Cell';
@@ -35,7 +35,29 @@ const Home = () => {
     },[])
 
 
-    const {tableData ,isGameStart} = useSelector(state => state);
+    const {tableData, isGameStart, nextBlock} = useSelector(state => state);
+
+
+    useEffect(() => {
+
+        let timer;
+        if (isGameStart === true){
+            timer = setInterval(() => {
+
+                if(nextBlock === true)
+                    dispatch({type:'CREATE_BLOCK'})
+                else
+                    dispatch({type:'MOVE_DOWN'})
+
+            }, 1000)
+        }
+
+        return () => {
+            clearInterval(timer);
+        }
+
+    },[isGameStart,nextBlock])
+
     return (
         <>
         <div onKeyDown={KeyboardAction} tabIndex="0">

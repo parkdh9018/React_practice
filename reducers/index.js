@@ -9,6 +9,7 @@ const initialState = {
         pos: [0,0], //좌상단의 좌표  
     },
     stopBlock:[],
+    nextBlock: true,
     isGameStart: false,
 };
 
@@ -73,8 +74,8 @@ const reducer = (state = initialState,action) => {
 
         case 'CREATE_BLOCK':
             moveBlock = {
-                //num : Math.floor(Math.random() * Block.length),
-                num : 3,
+                num : Math.floor(Math.random() * Block.length),
+                //num : 3,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
@@ -82,6 +83,7 @@ const reducer = (state = initialState,action) => {
             return { 
                 ...state,
                 moveBlock,
+                nextBlock: false,
                 tableData:drawblock(state.stopBlock, moveBlock),
             }
         case 'MOVE_DOWN':
@@ -92,6 +94,7 @@ const reducer = (state = initialState,action) => {
                 eraseblock(state.tableData)
                 return { 
                     ...state,
+                    nextBlock: true,
                     stopBlock:deep2Dcopy(state.tableData),
                 }
             }
@@ -113,6 +116,7 @@ const reducer = (state = initialState,action) => {
                 eraseblock(state.tableData)
                 return {
                     ...state,
+                    nextBlock: true,
                     stopBlock:deep2Dcopy(state.tableData),
                 }
             }
