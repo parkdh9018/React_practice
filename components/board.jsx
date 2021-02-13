@@ -5,7 +5,7 @@ import Cell from './Cell';
 
 const keyString = (i, j) => i.toString()+'_'+j.toString();
 
-const Home = () => {
+const Board = () => {
 
     const dispatch = useDispatch();
 
@@ -13,7 +13,7 @@ const Home = () => {
 
         switch(e.keyCode) {
             case 37: //left
-                dispatch({type:'MOVE_LEFT'})
+                dispatch({type:'MOVE_LEFT_OR_RIGHT', dir:'LEFT'})
                 break;
     
             case 40: //down
@@ -21,7 +21,7 @@ const Home = () => {
                 break;
     
             case 39: //right
-                dispatch({type:'MOVE_RIGHT'})
+                dispatch({type:'MOVE_LEFT_OR_RIGHT', dir:'RIGHT'})
                 break;
     
             case 32: //rotate
@@ -36,11 +36,10 @@ const Home = () => {
 
 
     const {tableData, isGameStart, nextBlock} = useSelector(state => state);
-
+    let timer;
 
     useEffect(() => {
 
-        let timer;
         if (isGameStart === true){
             timer = setInterval(() => {
 
@@ -58,6 +57,17 @@ const Home = () => {
 
     },[isGameStart,nextBlock])
 
+    // useEffect(() => {
+
+    //     if(isGameStart == true)
+    //         dispatch({type:'ERASE_BLOCK'})
+
+    // },[stopBlock])
+
+    const stoptimer = () => {
+        clearInterval(timer);
+    }
+
     return (
         <>
         <div onKeyDown={KeyboardAction} tabIndex="0">
@@ -66,7 +76,7 @@ const Home = () => {
                     return(
                         <tr key={i}>
                             {Array(tableData[0].length).fill().map((v, j) => 
-                                    <Cell rowIndex={i} colIndex={j} key={keyString(i,j)}/>
+                                    <Cell cellNum={tableData[i][j]} key={keyString(i,j)}/>
                             )}
                         </tr>
 
@@ -74,8 +84,9 @@ const Home = () => {
                 })}
             </table>}
         </div>
+        <button onClick={stoptimer}>stop</button>
         </>
     )
 }
 
-export default Home;
+export default Board;

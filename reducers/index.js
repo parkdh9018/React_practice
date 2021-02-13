@@ -46,11 +46,13 @@ const eraseblock = (block) => {
 
     for(let i = row-1; i >= 0; i--){
         if(block[i].every((v) => v > 0)){
-            console.log('한줄삭제')
+            //console.log(block)
+            //console.log('한줄삭제')
             block.splice(i,1);
-            block.unshift(Array(col).fill(0))
+            block.unshift(Array(col).fill(0));
         }
     }
+
 
 }
 
@@ -74,8 +76,8 @@ const reducer = (state = initialState,action) => {
 
         case 'CREATE_BLOCK':
             moveBlock = {
-                num : Math.floor(Math.random() * Block.length),
-                //num : 3,
+                //num : Math.floor(Math.random() * Block.length),
+                num : 1,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
@@ -91,7 +93,7 @@ const reducer = (state = initialState,action) => {
             //바닥에 닿았을때
             if (pos[0] >= row - Block[num][rotate].length) {
 
-                eraseblock(state.tableData)
+                //eraseblock(state.tableData)
                 return { 
                     ...state,
                     nextBlock: true,
@@ -113,7 +115,8 @@ const reducer = (state = initialState,action) => {
                     tableData: draw,
                 }
             } else { 
-                eraseblock(state.tableData)
+                //eraseblock(state.tableData)
+
                 return {
                     ...state,
                     nextBlock: true,
@@ -122,10 +125,18 @@ const reducer = (state = initialState,action) => {
             }
 
 
-        case 'MOVE_LEFT':
+        case 'MOVE_LEFT_OR_RIGHT':
+
+            let newPos;
+            if(action.dir === 'LEFT')
+                newPos = [pos[0],pos[1]-1];
+            else
+                newPos = [pos[0],pos[1]+1];
+
+
             moveBlock = {
                 ...state.moveBlock,
-                pos: [pos[0],pos[1]-1],
+                pos: newPos,
             };
 
             draw = drawblock(state.stopBlock, moveBlock);
@@ -137,29 +148,6 @@ const reducer = (state = initialState,action) => {
                     tableData: draw,
                 }
             } else {
-                console.log('left_false')
-                return {
-                    ...state,
-                }
-            }
-
-
-        case 'MOVE_RIGHT':
-            moveBlock = {
-                ...state.moveBlock,
-                pos: [pos[0],pos[1]+1],
-            };
-
-            draw = drawblock(state.stopBlock, moveBlock);
-
-            if(draw) {
-                return {
-                    ...state,
-                    moveBlock,
-                    tableData: draw,
-                }
-            } else {
-                console.log('right_false')
                 return {
                     ...state,
                 }
@@ -185,6 +173,26 @@ const reducer = (state = initialState,action) => {
                     ...state,
                 }
             }
+        case 'ERASE_BLOCK':
+
+            const stopBlock = deep2Dcopy(state.stopBlock);
+
+            console.log('stop')
+
+            for(let i = row-1; i >= 0; i--){
+                if(stopBlock[i].every((v) => v > 0)){
+                    //console.log(block)
+                    //console.log('한줄삭제')
+                    stopBlock.splice(i,1);
+                    stopBlock.unshift(Array(col).fill(0));
+                }
+            }
+
+            return {
+                ...state,
+                stopBlock
+            }
+
         default:
             return state;
     }

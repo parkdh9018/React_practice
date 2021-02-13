@@ -1,10 +1,7 @@
 import React from 'react';
 import Proptype from 'prop-types';
-import { useSelector } from 'react-redux';
 
-const Cell = ({rowIndex, colIndex}) => {
-
-    const cellNum = useSelector(state => state.tableData[rowIndex][colIndex])
+const Cell = ({cellNum}) => {
 
     const getColor = (num) => {
     
@@ -26,8 +23,7 @@ const Cell = ({rowIndex, colIndex}) => {
 }
 
 Cell.propTypes = {
-    rowIndex : Proptype.number.isRequired,
-    colIndex : Proptype.number.isRequired,
+    cellNum : Proptype.number.isRequired,
 }
 
-export default Cell;
+export default React.memo(Cell);
