@@ -35,20 +35,26 @@ const Board = () => {
     },[])
 
 
-    const {tableData, isGameStart, nextBlock} = useSelector(state => state);
+    const tableData = useSelector(state => state.tableData);
+    const isGameStart = useSelector(state => state.isGameStart);
+    const nextBlock = useSelector(state => state.nextBlock);
+    const stopBlock = useSelector(state => state.stopBlock);
+    const eraseRow = useSelector(state => state.eraseRow);
+
     let timer;
+    
 
     useEffect(() => {
 
         if (isGameStart === true){
             timer = setInterval(() => {
 
-                if(nextBlock === true)
+                if(nextBlock === true) {
                     dispatch({type:'CREATE_BLOCK'})
-                else
+                }else
                     dispatch({type:'MOVE_DOWN'})
 
-            }, 1000)
+            }, 500)
         }
 
         return () => {
@@ -57,16 +63,21 @@ const Board = () => {
 
     },[isGameStart,nextBlock])
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if(isGameStart == true)
-    //         dispatch({type:'ERASE_BLOCK'})
+        if(isGameStart === true && nextBlock === true){
 
-    // },[stopBlock])
+            dispatch({type:'IS_NEED_ERASE'});
+            console.log(eraseRow);
 
-    const stoptimer = () => {
-        clearInterval(timer);
-    }
+            if(eraseRow.size > 0) {
+                dispatch({type:'ERASE_BLOCK'});
+            }
+        }
+
+
+    },[nextBlock])
+
 
     return (
         <>
@@ -84,7 +95,6 @@ const Board = () => {
                 })}
             </table>}
         </div>
-        <button onClick={stoptimer}>stop</button>
         </>
     )
 }

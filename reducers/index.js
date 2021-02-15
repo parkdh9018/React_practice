@@ -11,6 +11,7 @@ const initialState = {
     stopBlock:[],
     nextBlock: true,
     isGameStart: false,
+    eraseRow: new Set(),
 };
 
 const row = 12;
@@ -31,7 +32,6 @@ const drawblock = (stopBlock, moveBlock) => {
                 if(result[i+pos[0]][j+pos[1]] === 0){
                     result[i+pos[0]][j+pos[1]] = block[i][j];
                 } else { //블록 끼리 겹침
-                    console.log('겹침')
                     return false;
                 }
             }
@@ -58,11 +58,13 @@ const eraseblock = (block) => {
 
 const reducer = (state = initialState,action) => {
 
+    const stopBlock = state.stopBlock;
     let moveBlock;
     let draw;
+
     const { pos, num, rotate } = state.moveBlock;
     const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
-
+   
     switch(action.type) {
 
         case 'GAME_START':
@@ -86,7 +88,7 @@ const reducer = (state = initialState,action) => {
                 ...state,
                 moveBlock,
                 nextBlock: false,
-                tableData:drawblock(state.stopBlock, moveBlock),
+                tableData:drawblock(stopBlock, moveBlock),
             }
         case 'MOVE_DOWN':
 
@@ -106,13 +108,13 @@ const reducer = (state = initialState,action) => {
                 pos: [pos[0]+1,pos[1]],
             };
 
-            draw = drawblock(state.stopBlock, moveBlock);
+            draw = drawblock(stopBlock, moveBlock);
 
             if(draw) {
                 return {
                     ...state,
                     moveBlock,
-                    tableData: draw,
+                    tableData: [...draw],
                 }
             } else { 
                 //eraseblock(state.tableData)
@@ -139,13 +141,13 @@ const reducer = (state = initialState,action) => {
                 pos: newPos,
             };
 
-            draw = drawblock(state.stopBlock, moveBlock);
+            draw = drawblock(stopBlock, moveBlock);
 
             if(draw) {
                 return {
                     ...state,
                     moveBlock,
-                    tableData: draw,
+                    tableData: [...draw],
                 }
             } else {
                 return {
@@ -160,7 +162,7 @@ const reducer = (state = initialState,action) => {
                 rotate: (rotate + 1) % Block[num].length,
             };
 
-            draw = drawblock(state.stopBlock, moveBlock);
+            draw = drawblock(stopBlock, moveBlock);
 
             if(draw) {
                 return {
@@ -173,24 +175,33 @@ const reducer = (state = initialState,action) => {
                     ...state,
                 }
             }
-        case 'ERASE_BLOCK':
+        case 'IS_NEED_ERASE':
 
-            const stopBlock = deep2Dcopy(state.stopBlock);
-
-            console.log('stop')
-
+            let eraseRow = state.eraseRow;
+            
             for(let i = row-1; i >= 0; i--){
                 if(stopBlock[i].every((v) => v > 0)){
-                    //console.log(block)
-                    //console.log('한줄삭제')
-                    stopBlock.splice(i,1);
-                    stopBlock.unshift(Array(col).fill(0));
+                    //stopBlock.splice(i,1);
+                    //stopBlock.unshift([...Array(col).fill(0)]);
+                    //console.log(stopBlock)
+                    eraseRow.add(i);
                 }
             }
 
             return {
                 ...state,
-                stopBlock
+                eraseRow
+            }
+
+        case 'ERASE_BLOCK':
+
+            const empty = Array(state.eraseRow.size).fill(Array(col).fill(0));
+            const result = empty.concat(stopBlock.filter((arr,i) => !state.eraseRow.has(i)));
+
+            return {
+                ...state,
+                stopBlock: deep2Dcopy(result),
+                eraseRow: new Set(),
             }
 
         default:
