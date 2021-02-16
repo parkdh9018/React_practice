@@ -11,9 +11,11 @@ const Cell = ({cellNum}) => {
             case 1:
                 return {background : 'red'}
             case 2:
-                return {background : 'yellow'}
+                return {background : '#5F9EA0'} //CadetBlue
             case 3:
-                return {background : 'blue'}                
+                return {background : 'blue'}
+            case 4:
+                return {background : '#006400'} //DarkGreen 
         }
     }
 

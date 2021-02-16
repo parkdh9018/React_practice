@@ -32,11 +32,11 @@ const Menu = () => {
     return (
         <>
             <button onClick={startGameClick}>start</button>
-            <button onClick={createBlockClick}>block_create</button>
+            {/* <button onClick={createBlockClick}>block_create</button>
             <button onClick={moveBlockClick}>move_down</button>
             <button onClick={move_leftClick}>move_left</button>
             <button onClick={move_rightClick}>move_right</button>
-            <button onClick={rotateClick}>rotate</button>
+            <button onClick={rotateClick}>rotate</button> */}
 
         </>
     )

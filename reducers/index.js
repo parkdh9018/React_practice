@@ -42,20 +42,6 @@ const drawblock = (stopBlock, moveBlock) => {
     
 }
 
-const eraseblock = (block) => {
-
-    for(let i = row-1; i >= 0; i--){
-        if(block[i].every((v) => v > 0)){
-            //console.log(block)
-            //console.log('한줄삭제')
-            block.splice(i,1);
-            block.unshift(Array(col).fill(0));
-        }
-    }
-
-
-}
-
 const reducer = (state = initialState,action) => {
 
     const stopBlock = state.stopBlock;
@@ -78,24 +64,32 @@ const reducer = (state = initialState,action) => {
 
         case 'CREATE_BLOCK':
             moveBlock = {
-                //num : Math.floor(Math.random() * Block.length),
-                num : 1,
+                num : Math.floor(Math.random() * Block.length),
+                //num : 1,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
 
-            return { 
-                ...state,
-                moveBlock,
-                nextBlock: false,
-                tableData:drawblock(stopBlock, moveBlock),
+            draw = drawblock(stopBlock, moveBlock)
+
+            if(draw) {
+                return { 
+                    ...state,
+                    moveBlock,
+                    nextBlock: false,
+                    tableData:[...draw],
+                }
+            } else {
+                // Game Over
+                return {
+                    ...state,
+                    isGameStart: false,
+                }
             }
         case 'MOVE_DOWN':
 
             //바닥에 닿았을때
             if (pos[0] >= row - Block[num][rotate].length) {
-
-                //eraseblock(state.tableData)
                 return { 
                     ...state,
                     nextBlock: true,
@@ -117,8 +111,6 @@ const reducer = (state = initialState,action) => {
                     tableData: [...draw],
                 }
             } else { 
-                //eraseblock(state.tableData)
-
                 return {
                     ...state,
                     nextBlock: true,
@@ -181,9 +173,6 @@ const reducer = (state = initialState,action) => {
             
             for(let i = row-1; i >= 0; i--){
                 if(stopBlock[i].every((v) => v > 0)){
-                    //stopBlock.splice(i,1);
-                    //stopBlock.unshift([...Array(col).fill(0)]);
-                    //console.log(stopBlock)
                     eraseRow.add(i);
                 }
             }

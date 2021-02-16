@@ -68,7 +68,6 @@ const Board = () => {
         if(isGameStart === true && nextBlock === true){
 
             dispatch({type:'IS_NEED_ERASE'});
-            console.log(eraseRow);
 
             if(eraseRow.size > 0) {
                 dispatch({type:'ERASE_BLOCK'});
