@@ -2,7 +2,7 @@ const path = require('path');
 const webpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
-    name: 'tictacto-setting',
+    name: 'Tetris',
     mode: 'development', // 실서비스 : production
     devtool: 'eval',
     resolve: {

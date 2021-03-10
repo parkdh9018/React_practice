@@ -81,7 +81,7 @@ const Board = () => {
     return (
         <>
         <div onKeyDown={KeyboardAction} tabIndex="0">
-            {isGameStart && <table>
+            <table>
                 {Array(tableData.length).fill().map((v, i) => {
                     return(
                         <tr key={i}>
@@ -92,7 +92,8 @@ const Board = () => {
 
                     )
                 })}
-            </table>}
+            </table>
+            {!isGameStart && <h1>Tetris</h1>}
         </div>
         </>
     )

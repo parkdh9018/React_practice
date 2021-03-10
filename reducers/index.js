@@ -1,8 +1,11 @@
 
 import Block from './Block'
 
+const row = 12;
+const col = 8;
+
 const initialState = {
-    tableData:[],
+    tableData: Array.from(Array(row), () => new Array(col).fill(0)),
     moveBlock:{
         num : 0,    //블록번호
         rotate: 0, //회전정도
@@ -14,8 +17,6 @@ const initialState = {
     eraseRow: new Set(),
 };
 
-const row = 12;
-const col = 8;
 
 const deep2Dcopy = (arr) => [...arr.map((v) => [...v])];
 
@@ -52,6 +53,9 @@ const reducer = (state = initialState,action) => {
     const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
    
     switch(action.type) {
+
+        case 'FETCH_DATA':
+            return {...state};
 
         case 'GAME_START':
             return {
