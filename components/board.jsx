@@ -2,6 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import {  useDispatch, useSelector } from 'react-redux';
 
 import Cell from './Cell';
+import Intro from './Intro';
+import {row,  col} from '../reducers';
 
 const keyString = (i, j) => i.toString()+'_'+j.toString();
 
@@ -38,7 +40,6 @@ const Board = () => {
     const tableData = useSelector(state => state.tableData);
     const isGameStart = useSelector(state => state.isGameStart);
     const nextBlock = useSelector(state => state.nextBlock);
-    const stopBlock = useSelector(state => state.stopBlock);
     const eraseRow = useSelector(state => state.eraseRow);
 
     let timer;
@@ -79,23 +80,22 @@ const Board = () => {
 
 
     return (
-        <>
-        <div onKeyDown={KeyboardAction} tabIndex="0">
-            <table>
-                {Array(tableData.length).fill().map((v, i) => {
-                    return(
-                        <tr key={i}>
-                            {Array(tableData[0].length).fill().map((v, j) => 
-                                    <Cell cellNum={tableData[i][j]} key={keyString(i,j)}/>
-                            )}
-                        </tr>
+            <div className="board" style={{width:40*col, height:40*row}}>
+                <table tabIndex="0" onKeyDown={KeyboardAction}>
+                    {Array(tableData.length).fill().map((v, i) => {
+                        return(
+                            <tr key={i}>
+                                {Array(tableData[0].length).fill().map((v, j) => 
+                                        <Cell cellNum={tableData[i][j]} key={keyString(i,j)}/>
+                                )}
+                            </tr>
 
-                    )
-                })}
-            </table>
-            {!isGameStart && <h1>Tetris</h1>}
-        </div>
-        </>
+                        )
+                    })}
+                </table>
+                {!isGameStart && <Intro/>}
+            </div>
+        
     )
 }
 

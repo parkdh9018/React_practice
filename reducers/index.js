@@ -1,8 +1,8 @@
 
 import Block from './Block'
 
-const row = 12;
-const col = 8;
+export const row = 12;
+export const col = 8;
 
 const initialState = {
     tableData: Array.from(Array(row), () => new Array(col).fill(0)),

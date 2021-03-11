@@ -1,11 +1,18 @@
-#root {
+
+
+
+
+
+.board {
     position: relative;
 }
 
 table {
-    position: absolute;
     border-collapse: collapse;
+    position: absolute;
 }
+
+
 td {
     border: 1px solid black;
     width: 40px;
@@ -13,9 +20,12 @@ td {
     text-align: center;
 }
 
-h1 {
+.Intro {
     position: absolute;
-    left: 50%;
+    z-index: 3;
+    right: 30%;
+    top: 20%;
+    text-align: center;
 }
 
 button {
