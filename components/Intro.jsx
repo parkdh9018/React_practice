@@ -1,18 +1,25 @@
-import React, { useCallback } from 'react';
-import {  useDispatch } from 'react-redux';
+import React, { useCallback, useState } from 'react';
+import {  useDispatch, useSelector } from 'react-redux';
 
 const Intro = () => {
 
-    const dispatch = useDispatch();
+    const [hstate, setHstate] = useState("Tetris");
+    const [buttonText, setButtonText] = useState("Start");
+    const isGameStart = useSelector(state => state.isGameStart);
 
+    const dispatch = useDispatch();
+  
     const startGameClick = useCallback(() => {
+        setHstate("Game Over");
+        setButtonText("Restart");
         dispatch({type:'GAME_START'})
     });
 
+
     return (
-        <div className='Intro'>
-                <h1>Tetris</h1>
-                <button onClick={startGameClick}>start</button>
+        <div className='Intro' style={!isGameStart?{display:'block'}:{display:'none'}}>
+                <h1>{hstate}</h1>
+                <button onClick={startGameClick}>{buttonText}</button>
         </div>
     )
 }

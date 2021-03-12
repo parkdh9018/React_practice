@@ -84,7 +84,7 @@ const reducer = (state = initialState,action) => {
                     tableData:[...draw],
                 }
             } else {
-                // Game Over
+                // Game Over 게임오버
                 return {
                     ...state,
                     isGameStart: false,

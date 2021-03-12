@@ -93,7 +93,7 @@ const Board = () => {
                         )
                     })}
                 </table>
-                {!isGameStart && <Intro/>}
+                <Intro/>
             </div>
         
     )

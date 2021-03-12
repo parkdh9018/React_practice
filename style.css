@@ -1,10 +1,16 @@
 
 
-
-
-
 .board {
     position: relative;
+    display: inline-block;
+}
+
+.nextBlock {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 500px;
+    background-color: blue;
 }
 
 table {
@@ -23,7 +29,8 @@ td {
 .Intro {
     position: absolute;
     z-index: 3;
-    right: 30%;
+    right: 50%;
+    transform: translateX(50%);
     top: 20%;
     text-align: center;
 }
