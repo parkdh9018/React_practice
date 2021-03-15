@@ -3,14 +3,16 @@
 .board {
     position: relative;
     display: inline-block;
+    vertical-align: top;
 }
 
 .nextBlock {
     position: relative;
     display: inline-block;
-    width: 100px;
-    height: 500px;
-    background-color: blue;
+    vertical-align: top;
+    text-align: center;
+    width: 200px;
+    height: 480px;
 }
 
 table {
@@ -33,6 +35,13 @@ td {
     transform: translateX(50%);
     top: 20%;
     text-align: center;
+}
+
+.blockBox {
+    border: 1px solid black;
+    width: 150px;
+    height: 400px;
+    margin: 0 auto;
 }
 
 button {
