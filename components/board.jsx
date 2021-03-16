@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import {  useDispatch, useSelector } from 'react-redux';
 
-import Cell from './Cell';
 import Intro from './Intro';
+import Table from './Table';
 import {row,  col} from '../reducers';
-
-const keyString = (i, j) => i.toString()+'_'+j.toString();
 
 const Board = () => {
 
@@ -35,7 +33,6 @@ const Board = () => {
         }
     
     },[])
-
 
     const tableData = useSelector(state => state.tableData);
     const isGameStart = useSelector(state => state.isGameStart);
@@ -75,24 +72,12 @@ const Board = () => {
             }
         }
 
-
     },[nextBlock])
 
 
     return (
-            <div className="board" style={{width:40*col, height:40*row}}>
-                <table tabIndex="0" onKeyDown={KeyboardAction}>
-                    {Array(tableData.length).fill().map((v, i) => {
-                        return(
-                            <tr key={i}>
-                                {Array(tableData[0].length).fill().map((v, j) => 
-                                        <Cell cellNum={tableData[i][j]} key={keyString(i,j)}/>
-                                )}
-                            </tr>
-
-                        )
-                    })}
-                </table>
+            <div className="board" style={{width:40*col, height:40*row}} tabIndex="0" onKeyDown={KeyboardAction}>
+                <Table tableData={tableData}/>
                 <Intro/>
             </div>
         

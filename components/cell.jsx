@@ -1,13 +1,13 @@
 import React from 'react';
 import Proptype from 'prop-types';
 
-const Cell = ({cellNum}) => {
+const Cell = ({cellNum, isMain}) => {
 
     const getColor = (num) => {
     
         switch(num){
             case 0:
-                return {background : 'white'}
+                return isMain? { background: 'white' } : { border: '0', background : 'white'} 
             case 1:
                 return {background : 'red'}
             case 2:
