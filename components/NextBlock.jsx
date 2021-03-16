@@ -1,36 +1,18 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Table from './Table';
+import Block from '../reducers/Block'
 
 const NextBlock = () => {
 
-    const block =     [
-        [
-            [0,1,0],
-            [1,1,1]
-        ],
-        [
-            [2,2],
-            [2,2],
-        ],
-        [
-            [3,0],
-            [3,3],
-            [0,3],
-        ],
-        [
-            [4,4,4,4]
-        ],
-        [
-            [0,1,0],
-            [1,1,1]
-        ],
-    ];
+    const BlockList = useSelector(state => state.BlockList);
+
 
     return (
         <div className="nextBlock">
             <h3>next block</h3>
             <div className="blockBox">
-                {block.map((v,i) => <Table tableData={v} key={i+1}/>)}
+                {BlockList.map((v,i) => <Table tableData={Block[v][0]} key={i}/>)}
             </div>
         </div>
     )

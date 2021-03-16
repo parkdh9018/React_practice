@@ -21,7 +21,6 @@ const Table = ({tableData}) => {
                                 <Cell cellNum={tableData[i][j]} key={keyString(i,j)} isMain={isMain}/>
                         )}
                     </tr>
-
                 )
             })}
             </tbody>

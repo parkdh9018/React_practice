@@ -11,10 +11,11 @@ const initialState = {
         rotate: 0, //회전정도
         pos: [0,0], //좌상단의 좌표  
     },
-    stopBlock:[],
+    stopBlock: [],
     nextBlock: true,
     isGameStart: false,
     eraseRow: new Set(),
+    BlockList: [],
 };
 
 
@@ -51,6 +52,7 @@ const reducer = (state = initialState,action) => {
 
     const { pos, num, rotate } = state.moveBlock;
     const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
+    const randomBlock = () => Math.floor(Math.random() * Block.length);
    
     switch(action.type) {
 
@@ -58,21 +60,32 @@ const reducer = (state = initialState,action) => {
             return {...state};
 
         case 'GAME_START':
+
+            let BlockList = Array(5).fill().map(v => randomBlock());
+
+            console.log(BlockList);
+
             return {
                 ...state,
                 tableData: empty_table(),
                 moveBlock:{},
                 stopBlock: empty_table(),
                 isGameStart:true,
+                BlockList,
             }
 
         case 'CREATE_BLOCK':
+
+            BlockList = [...state.BlockList];
+
             moveBlock = {
-                num : Math.floor(Math.random() * Block.length),
+                num : BlockList.shift(),
                 //num : 1,
                 rotate: 0,
                 pos: [0,Math.floor(col/2)-1],
             };
+
+            BlockList.push(randomBlock());
 
             draw = drawblock(stopBlock, moveBlock)
 
@@ -82,6 +95,7 @@ const reducer = (state = initialState,action) => {
                     moveBlock,
                     nextBlock: false,
                     tableData:[...draw],
+                    BlockList,
                 }
             } else {
                 // Game Over 게임오버
