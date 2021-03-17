@@ -1,11 +1,8 @@
-
 import Block from './Block'
-
-export const row = 15;
-export const col = 10;
+import {ROW, COL} from '../env'
 
 const initialState = {
-    tableData: Array.from(Array(row), () => new Array(col).fill(0)),
+    tableData: Array.from(Array(ROW), () => new Array(COL).fill(0)),
     moveBlock:{
         num : 0,    //블록번호
         rotate: 0, //회전정도
@@ -52,7 +49,7 @@ const reducer = (state = initialState,action) => {
     let draw;
 
     const { pos, num, rotate } = state.moveBlock;
-    const empty_table = () => Array.from(Array(row), () => new Array(col).fill(0));
+    const empty_table = () => Array.from(Array(ROW), () => new Array(COL).fill(0));
     const randomBlock = () => Math.floor(Math.random() * Block.length);
    
     switch(action.type) {
@@ -83,7 +80,7 @@ const reducer = (state = initialState,action) => {
                 num : BlockList.shift(),
                 //num : 1,
                 rotate: 0,
-                pos: [0,Math.floor(col/2)-1],
+                pos: [0,Math.floor(COL/2)-1],
             };
 
             BlockList.push(randomBlock());
@@ -108,7 +105,7 @@ const reducer = (state = initialState,action) => {
         case 'MOVE_DOWN':
 
             //바닥에 닿았을때
-            if (pos[0] >= row - Block[num][rotate].length) {
+            if (pos[0] >= ROW - Block[num][rotate].length) {
                 return { 
                     ...state,
                     nextBlock: true,
@@ -190,7 +187,7 @@ const reducer = (state = initialState,action) => {
 
             let eraseRow = state.eraseRow;
             
-            for(let i = row-1; i >= 0; i--){
+            for(let i = ROW-1; i >= 0; i--){
                 if(stopBlock[i].every((v) => v > 0)){
                     eraseRow.add(i);
                 }
@@ -204,7 +201,7 @@ const reducer = (state = initialState,action) => {
 
         case 'ERASE_BLOCK':
 
-            const empty = Array(state.eraseRow.size).fill(Array(col).fill(0));
+            const empty = Array(state.eraseRow.size).fill(Array(COL).fill(0));
             const result = empty.concat(stopBlock.filter((arr,i) => !state.eraseRow.has(i)));
             const score = state.eraseRow.size * 100 + state.score;
 

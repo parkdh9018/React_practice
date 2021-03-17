@@ -3,7 +3,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 
 import Intro from './Intro';
 import Table from './Table';
-import {row,  col} from '../reducers';
+import {ROW,  COL, TD_SIZE} from '../env';
 
 const Board = () => {
 
@@ -76,7 +76,7 @@ const Board = () => {
 
 
     return (
-            <div className="board" style={{width:40*col, height:40*row}} tabIndex="0" onKeyDown={KeyboardAction}>
+            <div className="board" style={{width:TD_SIZE*COL, height:TD_SIZE*ROW}} tabIndex="0" onKeyDown={KeyboardAction}>
                 <Table tableData={tableData}/>
                 <Intro/>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Cell from './Cell';
-import {row} from '../reducers';
+import {ROW} from '../env';
 
 
 const keyString = (i, j) => i.toString()+'_'+j.toString();
@@ -9,7 +9,7 @@ const keyString = (i, j) => i.toString()+'_'+j.toString();
 
 const Table = ({tableData}) => {
 
-    const isMain = tableData.length === row ? true : false; 
+    const isMain = tableData.length === ROW ? true : false; 
     
     return (
         <table>

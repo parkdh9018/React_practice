@@ -2,10 +2,10 @@ const React = require("react");
 const ReactDom = require("react-dom");
 
 import Tetris from './Tetris'
-import { row } from './reducers/index';
+import { ROW, TD_SIZE } from './env';
 
 const $root = document.querySelector('#root');
 
-$root.style.height = row * 40 ;
+$root.style.height = ROW * TD_SIZE ;
 
-ReactDom.render(<Tetris />, $root);
+ReactDom.render(<Tetris/>, $root);
