@@ -16,6 +16,7 @@ const initialState = {
     isGameStart: false,
     eraseRow: new Set(),
     BlockList: [],
+    score: 0,
 };
 
 
@@ -197,18 +198,21 @@ const reducer = (state = initialState,action) => {
 
             return {
                 ...state,
-                eraseRow
+                eraseRow,
+                
             }
 
         case 'ERASE_BLOCK':
 
             const empty = Array(state.eraseRow.size).fill(Array(col).fill(0));
             const result = empty.concat(stopBlock.filter((arr,i) => !state.eraseRow.has(i)));
+            const score = state.eraseRow.size * 100 + state.score;
 
             return {
                 ...state,
                 stopBlock: deep2Dcopy(result),
                 eraseRow: new Set(),
+                score
             }
 
         default:
